@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: narsss1234/go-web-app
-  tag: "12874665628"
+  tag: "12874843943"
   pullpolicy: IfNotPresent
 
 pod:
