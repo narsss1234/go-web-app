@@ -1,0 +1,24 @@
+replicaCount: 1
+
+image:
+  repository: narsss1234/go-web-app
+  tag: "v1"
+  pullpolicy: IfNotPresent
+
+pod:
+  name: go-web-app
+  labelKey: app
+  labelValue: go-web-app
+  port: 8080
+
+deployment:
+  name: go-web-app
+  labelKey: app
+  labelValue: go-web-app
+
+service:
+  name: go-web-app
+  port: 80
+  targetPort: 8080
+  type: NodePort
+  protocol: TCP
