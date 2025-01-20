@@ -2,7 +2,7 @@
 # This is the Dockerfile that we will use to build the image and build the container
 
 # Start with the base image of golang:1.22, which is required for the application
-FROM golang:1.22 AS builder
+FROM golang:1.22.5 AS builder
 
 # Set the working director inside the container
 WORKDIR /app
@@ -28,10 +28,10 @@ FROM gcr.io/distroless/base
 # Set the working directory inside the container
 
 # Copy the binary form the previous build stage
-COPY --from=builder /app/main .
+COPY --from=builder /app .
 
 # Copy the static files from the previous stage
-COPY --from=builder /app/static /app/static
+COPY /static /app/static
 
 # Expose the port on which the application will run
 EXPOSE 8080
