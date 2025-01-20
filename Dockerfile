@@ -20,6 +20,6 @@ COPY --from=builder /app/main .
 
 COPY --from=builder /app/static ./static
 
-EXPOSE 80:8080
+EXPOSE 8080
 
 CMD ["./main"]
