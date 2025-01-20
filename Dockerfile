@@ -1,3 +1,4 @@
+# Base image golang atleast 1.22 required
 FROM golang:1.22 AS builder
 
 WORKDIR /app
