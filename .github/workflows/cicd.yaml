@@ -12,7 +12,7 @@ on:
       - 'README.md'
       - 'LICENSE'
       - 'helm/**'
-  jobs:
+jobs:
     build:
       runs-on: ubuntu-latest
 
