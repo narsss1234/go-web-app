@@ -13,7 +13,7 @@ pod:
 image:
   repository: narsss1234/go-web-app
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "12869866615"
 
 container:
   name: go-web-app
