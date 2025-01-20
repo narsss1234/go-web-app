@@ -6,7 +6,7 @@ COPY go.mod /app
 
 RUN go mod download
 
-RUN . /app
+COPY . /app
 
 RUN go build -o main .
 
@@ -20,6 +20,6 @@ COPY --from=builder /app/main .
 
 COPY --from=builder /app/static ./static
 
-EXPOSE 8080:80
+EXPOSE 80:8080
 
 CMD ["./main"]
