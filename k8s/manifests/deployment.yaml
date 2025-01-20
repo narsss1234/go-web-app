@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: go-webapp
-        image: narsss1234/go-webapp:latest
+        image: narsss1234/go-web-app:latest
         ports:
         - containerPort: 8080
