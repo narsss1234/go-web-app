@@ -1,0 +1,101 @@
+# CICD using GitHub Actions
+
+name: CI/CD
+
+# Trigger the workflow on push and the specific branch, and also the folders and files that can be ignored
+on:
+  push:
+    branches:
+      - practice
+    paths-ignore:
+      - 'README.md'
+      - 'k8s/**'
+      - 'helm/**'
+
+# Defining the jobs
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Set up go 1.22
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.22
+
+      - name: Build
+        run: go build -o main .
+
+      - name: Test
+        run: go test ./...
+
+  code-quality:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Set up Go 1.22
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.22
+
+      - name: Install golangci-lint
+        run: |
+            curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.56.2
+
+      - name: Run golangci-lint
+        run: golangci-lint run
+
+  docker-build-and-push:
+
+    needs: code-quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: @{{ secrets.DOCKER_USERNAME }}/go-web-app:${{ github.run_id}}
+
+  update-newtag-in-helm-chart:
+    needs: docker-build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+    
+      - name: Update tag in helm chart
+        run: |
+          sed -i 's/tag: .*/tag: "${{ github.run_id }}"/' helm/go-web-app-chart/values.yaml
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "narsss1234@gmail.com"
+          git config --global user.name "Satya"
+          git add helm/go-web-app-chart/values.yaml
+          git commit -m "Update tag in helm chart"
+          git push
