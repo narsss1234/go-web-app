@@ -39,10 +39,12 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v4
 
+        - name: Install golangci-lint
+          run: |
+            curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.56.2
+
         - name: Run golangci-lint
-          uses: golangci/golangci-lint-action@v6
-          with:
-            version: v1.56.2
+          run: golangci-lint run
       
     docker-build-and-push:
       needs: code-quality
