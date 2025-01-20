@@ -8,7 +8,7 @@ FROM golang:1.22 AS builder
 WORKDIR /app
 
 # Copy the go.mod and go.sum files to the working directory
-COPY go.mod .
+COPY go.mod /app
 
 # Download all the dependencies
 RUN go mod download
@@ -28,10 +28,10 @@ FROM gcr.io/distroless/base
 # Set the working directory inside the container
 
 # Copy the binary form the previous build stage
-COPY --from=builder /app .
+COPY --from=builder /app/main .
 
 # Copy the static files from the previous stage
-COPY --from=builder /app/static ./static
+COPY --from=builder /app/static /app/static
 
 # Expose the port on which the application will run
 EXPOSE 8080
