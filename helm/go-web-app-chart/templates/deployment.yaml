@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: {{ .Values.deployment.name}}
   labels:
-    {{ .Values.deployment.labels-Key }}: {{ .Values.deployment.labels-Value }}
+    {{ .Values.deployment.labelsKey }}: {{ .Values.deployment.labelsValue }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{ .Values.pod.labels-Key }} : {{ .Values.pod.labels-Value }}
+      {{ .Values.pod.labelsKey }} : {{ .Values.pod.labelsValue }}
   template:
     metadata:
       labels:
-        {{ .Values.pod.labels-Key }} : {{ .Values.pod.labels-Value }}
+        {{ .Values.pod.labelsKey }} : {{ .Values.pod.labelsValue }}
     spec:
       containers:
       - name: {{ .Values.container.name }}

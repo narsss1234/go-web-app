@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: {{ .Values.service.name }}
   labels:
-    {{ .Values.deployment.labels-Key }}: {{ .Values.deployment.labels-Value }}
+    {{ .Values.service.labelsKey }}: {{ .Values.service.labelsValue }}
 spec:
   ports:
   - port: {{ .Values.service.port }}
     targetPort: {{ .Values.service.targetPort }}
     protocol: {{ .Values.service.protocol }}
   selector:
-    {{ .Values.pod.labels-Key }}: {{ .Values.pod.labels-Value }}
+    {{ .Values.pod.labelsKey }}: {{ .Values.pod.labelsValue }}
   type: {{ .Values.service.type }}

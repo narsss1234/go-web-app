@@ -2,13 +2,13 @@ replicaCount: 1
 
 deployment:
   name: go-web-app
-  labels-Key: app
-  labels-Value: go-web-app
+  labelsKey: app
+  labelsValue: go-web-app
 
 pod:
   name: go-web-app
-  labels-Key: app
-  labels-Value: go-web-app
+  labelsKey: app
+  labelsValue: go-web-app
 
 image:
   repository: narsss1234/go-web-app
@@ -21,8 +21,8 @@ container:
 
 service:
   name: go-web-app
-  labels-Key: app
-  labels-Value: go-web-app
+  labelsKey: app
+  labelsValue: go-web-app
   port: 80
   targetPort: 8080
   protocol: TCP
